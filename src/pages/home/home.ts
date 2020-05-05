@@ -44,5 +44,9 @@ export class HomePage {
              error => {});    
   } 
 
+  signup() {
+    console.log('passei aqui')
+    this.navCtrl.push('SignupPage');
+  }
 
 }
