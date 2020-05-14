@@ -1,9 +1,10 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs/Rx";
-import { ClienteDTO } from "../models/cliente.dto";
-import { API_CONFIG } from "../config/api.config";
-import { StorageService } from "./storage.service";
+import { StorageService } from "../storage.service";
+import { ClienteDTO } from "../../models/cliente.dto";
+import { API_CONFIG } from "../../config/api.config";
+
 
 @Injectable()
 export class ClienteService {
@@ -21,5 +22,16 @@ export class ClienteService {
          let url = `${API_CONFIG.bucketBaseUrl}/cp${id}.jpg`
          return this.http.get(url, {responseType : 'blob'});
      } 
+
+     insert(obj : ClienteDTO) {
+         
+         return this.http.post(
+             `${API_CONFIG.baseUrl}/clientes`,
+             obj,
+             {
+                 observe: 'response',
+                 responseType: 'text'
+             });
+     }
 
 }
