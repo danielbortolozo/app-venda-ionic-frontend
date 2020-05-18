@@ -13,6 +13,7 @@ import { API_CONFIG } from '../../config/api.config';
 export class ProdutosPage {
 
    items : ProdutoDTO[];
+   categoria : string;
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
@@ -21,6 +22,7 @@ export class ProdutosPage {
 
   ionViewDidLoad() {
     let categoria_id = this.navParams.get("categoria_id");
+    this.categoria = this.navParams.get("categoria_desc");
     this.produtoService.findByCategoria(categoria_id)
         .subscribe(response => {
          this.items = response['content'];
@@ -40,8 +42,8 @@ export class ProdutosPage {
      }
    }
 
-   showDetail(produto_id : string) {
-     this.navCtrl.push('ProdutoDetailPage', {produto_id: produto_id});
+   showDetail(produto_id : string, categoria_desc: string) {
+     this.navCtrl.push('ProdutoDetailPage', {produto_id: produto_id, categoria_desc: categoria_desc});
    }
 
 }
