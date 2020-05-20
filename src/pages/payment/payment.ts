@@ -22,13 +22,13 @@ export class PaymentPage {
     console.log(this.pedido);
 
     this.formGroup = this.formBuilder.group({
-      numeroParcelas: [1, Validators.required],
+      numeroDeParcelas: [1, Validators.required],
       "@type": ["pagamentoCartao", Validators.required] 
     });            
   }
 
   nextPage(){
     this.pedido.pagamento = this.formGroup.value;
-    console.log(this.pedido);
+    this.navCtrl.setRoot('OrderConfirmationPage', {pedido: this.pedido});
   }
 }
