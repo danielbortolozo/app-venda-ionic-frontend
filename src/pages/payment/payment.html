@@ -25,7 +25,7 @@
        </ion-list>
        <ion-item *ngIf="formGroup.value['@type'] == 'pagamentoCartao'">
            <ion-label stacked>Parcelar no cartão</ion-label>
-           <ion-select fromControlName="numeroDeParcelas">
+           <ion-select formControlName="numeroDeParcelas">
               <ion-option *ngFor="let n of parcelas; first as f" [value]="n" [selected]="f">{{n}}</ion-option>              
            </ion-select> 
        </ion-item>
