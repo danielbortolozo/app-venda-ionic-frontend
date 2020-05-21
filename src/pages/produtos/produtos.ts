@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController, Refresher } from 'ionic-angular';
 import { ProdutoDTO } from '../../models/produto.dto';
 import { ProdutoService } from '../../services/domain/produto.service';
 import { API_CONFIG } from '../../config/api.config';
@@ -24,6 +24,9 @@ export class ProdutosPage {
   
 
   ionViewDidLoad() {
+     this.loadData(); 
+  }
+  loadData(){
     let categoria_id = this.navParams.get("categoria_id");
     let loader = this.presentLoadingDefault();
     this.categoria = this.navParams.get("categoria_desc");
@@ -35,7 +38,7 @@ export class ProdutosPage {
         },
            error => {
              loader.dismiss();
-           });    
+           });   
   }
 
    loadImageUrls() {
@@ -63,5 +66,12 @@ export class ProdutosPage {
     return loading; 
   }
 
+  doRefresh(event) {
+    this.loadData();
+    setTimeout(() => {
+      
+      event.complete();
+    }, 1000);
+  }
 
 }
