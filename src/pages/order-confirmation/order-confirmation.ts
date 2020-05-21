@@ -21,6 +21,7 @@ export class OrderConfirmationPage {
   cliente: ClienteDTO;
   endereco: EnderecoDTO;
   codpedido: string;
+  confirmarPedido: boolean;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -30,7 +31,9 @@ export class OrderConfirmationPage {
 
 
       this.pedido = this.navParams.get('pedido');   
-      console.log('numeroparcelar :'+this.pedido.pagamento.numeroDeParcelas);       
+      console.log('numeroparcelar :'+this.pedido.pagamento.numeroDeParcelas); 
+      this.confirmarPedido = false;   
+         
   }
 
   ionViewDidLoad() {
@@ -60,9 +63,11 @@ export class OrderConfirmationPage {
   }
 
   checkout(){
+    this.confirmarPedido = true;  
     this.pedidoService.insert(this.pedido)
-        .subscribe(response => {
-            this.cartService.createOrCleanCart();
+        .subscribe(response => {  
+               
+          this.cartService.createOrCleanCart();    
             this.codpedido = this.extractId(response.headers.get('location'));
             console.log(response.headers.get('location'));
         },
