@@ -21,9 +21,6 @@ export class ProdutosPage {
               public produtoService: ProdutoService,
               public loadingCtrl: LoadingController) {
   }
-
-  
-
   ionViewDidLoad() {
      this.loadData(); 
   }
@@ -31,46 +28,41 @@ export class ProdutosPage {
     let categoria_id = this.navParams.get("categoria_id");
     let loader = this.presentLoadingDefault();
    // this.categoria = this.navParams.get("categoria_desc");
-    this.produtoService.findByCategoria(categoria_id, this.page, 5)
+    this.produtoService.findByCategoria(categoria_id, this.page, 10)
         .subscribe(response => {
           let start = this.items.length;
          this.items = this.items.concat(response['content']);
          let end = this.items.length - 1;
-         loader.dismiss();
-         console.log(this.page);
-         console.log(this.items);
+         loader.dismiss();         
          this.loadImageUrls(start, end);
         },
            error => {
              loader.dismiss();
            });   
   }
-
-   loadImageUrls(start: number, end: number) {
+  loadImageUrls(start: number, end: number) {
      for (var i=start; i<=end; i++){
        let item = this.items[i];
        this.produtoService.getSmallImageFromBucket(item.id)
            .subscribe(response => {
              item.imageUrl = `${API_CONFIG.bucketBaseUrl}/prod${item.id}-small.jpg`;
            },
-             error => {});
+             error => {
+
+             });
      }
    }
-
    showDetail(produto_id : string, categoria_desc: string) {
      this.navCtrl.push('ProdutoDetailPage', {produto_id: produto_id, categoria_desc: categoria_desc});
    }
-
    presentLoadingDefault() {
     let loading = this.loadingCtrl.create({
       content: 'Aguarde...',
       duration: 3000
-    });
-  
+    });  
     loading.present();
     return loading; 
   }
-
   doRefresh(event) {
     this.page = 0;
     this.items = [];
@@ -80,7 +72,6 @@ export class ProdutosPage {
       event.complete();
     }, 1000);
   }
-
   doInfinite(infiniteScroll){
     this.page++;
     this.loadData();
@@ -88,8 +79,4 @@ export class ProdutosPage {
       infiniteScroll.complete();
     }, 1000);
   }
-
- 
-  
-
 }
